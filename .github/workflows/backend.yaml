@@ -23,5 +23,5 @@ jobs:
         java-version: '16'
 
     - name: Build with Maven
-      working-directory: backend        
+      working-directory: backend
       run: mvn package -DskipTests=true
