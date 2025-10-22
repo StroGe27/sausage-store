@@ -24,9 +24,9 @@ jobs:
 
     - name: Build with Maven
       working-directory: backend
-      run: mvn package -DskipTests=true
+      run: mvn package -DskipTests=true -Dversion.application=${APP_VERSION}.${GITHUB_SHA:0:7}
 
-    - name: Integration tests 
+    - name: Integration tests
       working-directory: backend
       run: mvn test
 
@@ -38,3 +38,18 @@ jobs:
       working-directory: backend
       run: mvn spotbugs:check
       continue-on-error: true
+
+    - name: Upload Backend Archive
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-archive
+        path: backend/target/*.jar
+
+    - name: Upload Reports Archives
+      uses: actions/upload-artifact@v3
+      with:
+        name: reports-archive
+        path: |
+          backend/target/surefire-reports/
+          backend/target/checkstyle-result.xml
+          backend/target/spotbugsXml.xml 
